@@ -8,62 +8,42 @@ class QuotesSpider(scrapy.Spider):
 
     def start_requests(self):
         urls = [
-          "https://www.digikala.com/product/dkp-6351381",
+            "https://www.digikala.com/product/dkp-446827/%D8%B4%D8%A7%D9%85%D9%BE%D9%88-%D9%BE%D8%B3-%D8%A7%D8%B2-%DA%A9%D8%A7%D8%B4%D8%AA-%D9%85%D9%88-%DA%98%D8%A7%DA%A9-%D8%A2%D9%86%D8%AF%D8%B1%D9%84-%D9%BE%D8%A7%D8%B1%DB%8C%D8%B3-%D9%85%D8%AF%D9%84-act-implant-%D8%AD%D8%AC%D9%85-150-%D9%85%DB%8C%D9%84%DB%8C-%D9%84%DB%8C%D8%AA%D8%B1",
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
+
         answ = re.findall("var variants =(.+?);\\n", response.body.decode('utf-8'))
         answ = answ[0]
         answ_1 = json.loads(answ)
-
         list_1 = []
+        rates= []
         for i in answ_1:
-            a = answ_1[i]
-            price = a["price_list"]["selling_price"]
-            final_percentage = a["marketplace_seller"]["rating"]["final_percentage"]
-            is_exist_in_warhouse = a["isExistsInWarehouse"]
-            # print(price)
-            # print(final_percentage)
-            list_1.append((price, final_percentage, is_exist_in_warhouse))
-        print(list_1)
-        excellent_percentege = list_1[0][1]
-        # print(excellent_percentege)
-        print(len(list_1))
-        # به ازای هر یه درصد کاهش رضایت مشتری نسبت به رضایت کالای مشتری که در باکس است 0.01 درصد کاهش میابد
-        # اگر در انبار دیجیکالا موجود نباشد 0.08 از قیمت باید کاهش یابد
-
-        for item in list_1:
-            # for i in list_1:
-            #     if len(i)>1:
-            #         list_1.remove(i)
-            if item[1] >= excellent_percentege:
-                if item[2] == True:
-                    print(f"{item[0]}----->{item[0]}")
-                else:
-                    print(f"{item[0] - (item[0] * 0.08)}")
-                    print(f"{item[0]}----->{item[0]}")
-            elif item[1] < excellent_percentege:
-                if item[2] == True:
-                    percent_low = excellent_percentege - item[1]
-                    low = percent_low * 0.01
-                    print(f"{item[0]}----->{item[0] - low}")
-                else:
-                    percent_low = excellent_percentege - item[1]
-                    low = percent_low * 0.01
-                    print(f"{item[0]}----->{item[0] - low - (item[0] * 0.08)}")
+            product = answ_1[i]
+            price = product["price_list"]["selling_price"]
+            lead_time = product["leadTime"]
+            on_time = product["marketplace_seller"]["rating"]["ship_on_time_percentage"]
+            return_percentage = product["marketplace_seller"]["rating"]["return_percentage"]
+            ship_on_time_percentage= product["marketplace_seller"]["rating"]["ship_on_time_percentage"]
+            rate = (on_time+ship_on_time_percentage+return_percentage)/3
+            rates.append(rate)
+            list_1.append((price, lead_time,rate))
+        # print(list_1)
+        # print(len(list_1))
+        max_rate = max(rates)
+        # print(max_rate)
 
 
 
+        # تاخیر در ارسال به ازای هر 1 روز 4درصد
+        #به ازای 1 درصد پایین تر از 1max_rate   درصد از قیمت کاهش میابد
 
+        for info in list_1:
 
-
-# class entity:
-#     def __init__(self, price, final_percentage, ):
-#         self.price = price
-#         self.final_percentage = final_percentage
-#
-#     def make_dictionary(self):
-#         dictionary = {"pice": self.price,
-#                       "final_price": self.final_percentage}
+                new_price = info[0]-(info[0]*(info[1]*0.04))
+                if info[2]<max_rate:
+                    new_price = new_price-(new_price*(max_rate-info[2]*0.01))
+                if new_price!=info[0]:
+                    print(f"{info[0]}------>{new_price}")
