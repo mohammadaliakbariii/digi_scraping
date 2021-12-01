@@ -36,7 +36,7 @@ class QuotesSpider(scrapy.Spider):
         max_rate = max(rates)
         box_price = list_1[0][0]
         box_objects = list_1[0]
-        print(box_objects)
+        # print(box_objects)
         print(f"box price:{list_1[0][0]}")
         list_1.pop(0)
 
