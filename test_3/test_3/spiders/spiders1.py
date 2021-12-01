@@ -48,15 +48,15 @@ class QuotesSpider(scrapy.Spider):
 
                 if box_objects[1] > info[1]:
 
-                    new_price = info[0] - (box_price * (info[1] * 0.05))
+                    new_price = box_price + (info[0] * (info[1] * 0.05))
                 elif box_objects[1] < info[1]:
-                    new_price = info[0] + (box_price * (info[1] * 0.05))
+                    new_price = box_price - (info[0] * (info[1] * 0.05))
                 else:
                     new_price = info[0]
-                if info[2] < box_objects[2]:
-                    new_price = new_price - (box_price * ((box_objects[2] - (info[2])) * 0.01))
-                elif info[2] > max_rate:
-                    new_price = new_price + (box_price * ((box_objects[2] - (info[2])) * 0.01))
+                # if info[2] < box_objects[2]:
+                #     new_price = new_price - (box_price * ((box_objects[2] - (info[2])) * 0.01))
+                # elif info[2] > max_rate:
+                #     new_price = new_price + (box_price * ((box_objects[2] - (info[2])) * 0.01))
 
                 print(f"{info[0]}------>{round(new_price, 2)}")
 
