@@ -14,7 +14,7 @@ class QuotesSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-
+        # this function response your request and scrap some information
         information = re.findall("var variants =(.+?);\\n", response.body.decode('utf-8'))
         information = information[0]
         answer = json.loads(information)
