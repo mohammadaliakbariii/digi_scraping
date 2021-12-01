@@ -24,10 +24,10 @@ class QuotesSpider(scrapy.Spider):
             product = answer[i]
             price = product["price_list"]["selling_price"]
             lead_time = product["leadTime"]
-            on_time = product["marketplace_seller"]["rating"]["ship_on_time_percentage"]
+            cancel_percentage = product["marketplace_seller"]["rating"]["cancel_percentage"]
             return_percentage = product["marketplace_seller"]["rating"]["return_percentage"]
             ship_on_time_percentage = product["marketplace_seller"]["rating"]["ship_on_time_percentage"]
-            rate = (on_time + ship_on_time_percentage + return_percentage) / 3
+            rate = (cancel_percentage + ship_on_time_percentage + return_percentage) / 3
             rates.append(rate)
             list_1.append((price, lead_time, rate))
         max_rate = max(rates)
