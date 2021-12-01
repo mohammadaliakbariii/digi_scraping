@@ -15,13 +15,13 @@ class QuotesSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        answ = re.findall("var variants =(.+?);\\n", response.body.decode('utf-8'))
-        answ = answ[0]
-        answ_1 = json.loads(answ)
+        information = re.findall("var variants =(.+?);\\n", response.body.decode('utf-8'))
+        information = information[0]
+        answer = json.loads(information)
         list_1 = []
         rates = []
-        for i in answ_1:
-            product = answ_1[i]
+        for i in answer:
+            product = answer[i]
             price = product["price_list"]["selling_price"]
             lead_time = product["leadTime"]
             on_time = product["marketplace_seller"]["rating"]["ship_on_time_percentage"]
@@ -38,7 +38,6 @@ class QuotesSpider(scrapy.Spider):
         # تاخیر در ارسال به ازای هر 1 روز 4درصدد
         # به ازای 1 درصد پایین ازبالا ترین درصد,1درصد کاهش میابد
         for info in list_1:
-
             new_price = info[0] - (info[0] * (info[1] * 0.04))
             if info[2] < max_rate:
                 new_price = new_price - (new_price * ((max_rate - (info[2])) * 0.01))
