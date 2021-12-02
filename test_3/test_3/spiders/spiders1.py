@@ -8,7 +8,7 @@ class QuotesSpider(scrapy.Spider):
 
     def start_requests(self):
         urls = [
-            "https://www.digikala.com/product/dkp-6351381/",
+            "https://www.digikala.com/product/dkp-6351381",
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -54,7 +54,7 @@ class QuotesSpider(scrapy.Spider):
         print(colors)
         index = 0
         informations = []
-        while index != len(colors) :
+        while index != len(colors):
             list_product_diff_Color = []
             for info in list_1:
                 if info[3] == colors[index]:
@@ -92,4 +92,3 @@ class QuotesSpider(scrapy.Spider):
         elif your_answer == "m":
             minimum_price = min(prices)
             print(f"minimum price is {minimum_price}.your suitable price is {minimum_price - 1000}")
-
