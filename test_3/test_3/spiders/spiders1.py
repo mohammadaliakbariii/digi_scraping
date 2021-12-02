@@ -51,7 +51,7 @@ class QuotesSpider(scrapy.Spider):
 
         # print(list_1)
         colors = list(colors)
-        print(colors)
+        # print(colors)
         index = 0
         informations = []
         while index != len(colors):
@@ -63,7 +63,7 @@ class QuotesSpider(scrapy.Spider):
             index += 1
         print(">>>>>>>>>>>>>>>>>", informations)
 
-        print(box_objects)
+        # print(box_objects)
         # print(f"box price:{list_1[0][0]}")
         list_1.pop(0)
 
@@ -92,7 +92,7 @@ class QuotesSpider(scrapy.Spider):
         # elif your_answer == "m":
         #     minimum_price = min(prices)
         #     print(f"minimum price is {minimum_price}.your suitable price is {minimum_price - 1000}")
-
+        #
         your_answer = input("if you want minimum enter m or if you want box enter b?\n").lower()
         if your_answer == "b":
             for datas in informations:
