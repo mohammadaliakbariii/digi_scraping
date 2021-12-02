@@ -107,10 +107,12 @@ class QuotesSpider(scrapy.Spider):
                         pass
         elif your_answer == "m":
             for datas in informations:
-                print(f"color:{datas[0][3]}")
-                box_objects_color = datas[0]
-                print(f"box_price:{datas[0][0]}")
-                print(f"minimum price is {datas[0][0]}.your suitable price is {datas[0][0] - 1000}")
+                prices=[]
+
+                for d in datas:
+                    prices.append(d[0])
+                min_price =min(prices)
+                print(f"in color {d[3]} minimum price is {min_price}.your suitable price is {min_price - 1000}")
                 print("------------------------")
 
 
