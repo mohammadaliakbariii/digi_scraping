@@ -16,9 +16,9 @@ class QuotesSpider(scrapy.Spider):
     def parse(self, response):
         # this function response your request and scrap some information
 
-        information = re.findall("var variants =(.+?);\\n", response.body.decode('utf-8'))
-        information = information[0]
-        answer = json.loads(information)
+        data = re.findall("var variants =(.+?);\\n", response.body.decode('utf-8'))
+        data = data[0]
+        answer = json.loads(data)
 
         list_1 = []
         rates = []
