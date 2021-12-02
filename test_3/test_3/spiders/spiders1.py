@@ -33,7 +33,7 @@ class QuotesSpider(scrapy.Spider):
             cancel_percentage = product["marketplace_seller"]["rating"]["cancel_percentage"]
             return_percentage = product["marketplace_seller"]["rating"]["return_percentage"]
             ship_on_time_percentage = product["marketplace_seller"]["rating"]["ship_on_time_percentage"]
-            if product["color"] != []:
+            if  product["color"]  != []:
                 color = product["color"]["title"]
 
             else:
@@ -62,7 +62,6 @@ class QuotesSpider(scrapy.Spider):
             informations.append(list_product_diff_Color)
             index += 1
         print(">>>>>>>>>>>>>>>>>", informations)
-
 
         print(box_objects)
         # print(f"box price:{list_1[0][0]}")
@@ -94,13 +93,8 @@ class QuotesSpider(scrapy.Spider):
         #     minimum_price = min(prices)
         #     print(f"minimum price is {minimum_price}.your suitable price is {minimum_price - 1000}")
 
-
-
         for datas in informations:
             print(f"color:{datas[0][3]}")
             box_price_color = datas[0][0]
             print(f"box_price:{box_price_color}")
             print("------------------------")
-
-
-
