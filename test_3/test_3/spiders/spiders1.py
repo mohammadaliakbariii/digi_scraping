@@ -62,6 +62,8 @@ class QuotesSpider(scrapy.Spider):
             informations.append(list_product_diff_Color)
             index += 1
         print(">>>>>>>>>>>>>>>>>", informations)
+        for item in informations:
+            print(f"box price for {item[0][3]}:{item[0][0]}")
 
         print(box_objects)
         print(f"box price:{list_1[0][0]}")
