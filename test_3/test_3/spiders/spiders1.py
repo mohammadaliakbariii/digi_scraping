@@ -8,7 +8,7 @@ class QuotesSpider(scrapy.Spider):
 
     def start_requests(self):
         urls = [
-            "https://www.digikala.com/product/dkp-6351381",
+            "https://www.digikala.com/product/dkp-4979130/",
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -95,6 +95,13 @@ class QuotesSpider(scrapy.Spider):
 
         for datas in informations:
             print(f"color:{datas[0][3]}")
-            box_price_color = datas[0][0]
-            print(f"box_price:{box_price_color}")
+            box_objects_color = datas[0]
+            print(f"box_price:{datas[0][0]}")
             print("------------------------")
+            print(box_objects_color)
+            datas.pop(0)
+            for d in datas:
+                if d[1]>box_objects_color[1]:
+                    pass
+
+
