@@ -71,26 +71,37 @@ class QuotesSpider(scrapy.Spider):
 
         # تاخیر در ارسال به ازای هر 1 روز 5درصدد
         # به ازای 1 درصد پایین ازبالا ترین درصد,1درصد کاهش میابد
-        your_answer = input("if you want minimum enter m or if you want box enter b?\n").lower()
-        if your_answer == "b":
-            for info in list_1:
-                if info[3] == box_objects[3]:
+        # your_answer = input("if you want minimum enter m or if you want box enter b?\n").lower()
+        # if your_answer == "b":
+        #     for info in list_1:
+        #         if info[3] == box_objects[3]:
+        #
+        #             if box_objects[1] > info[1]:
+        #
+        #                 new_price = box_price + (info[0] * (info[1] * 0.05))
+        #             elif box_objects[1] < info[1]:
+        #                 new_price = box_price - (info[0] * (info[1] * 0.05))
+        #             else:
+        #                 new_price = info[0]
+        #             if info[2] < box_objects[2]:
+        #                 new_price = new_price - (box_price * ((box_objects[2] - (info[2])) * 0.01))
+        #             elif info[2] > box_objects[2]:
+        #                 new_price = new_price + (box_price * ((box_objects[2] - (info[2])) * 0.01))
+        #
+        #             print(f"{info[0]}------>{round(new_price, 2)}")
+        #
+        #
+        # elif your_answer == "m":
+        #     minimum_price = min(prices)
+        #     print(f"minimum price is {minimum_price}.your suitable price is {minimum_price - 1000}")
 
-                    if box_objects[1] > info[1]:
-
-                        new_price = box_price + (info[0] * (info[1] * 0.05))
-                    elif box_objects[1] < info[1]:
-                        new_price = box_price - (info[0] * (info[1] * 0.05))
-                    else:
-                        new_price = info[0]
-                    if info[2] < box_objects[2]:
-                        new_price = new_price - (box_price * ((box_objects[2] - (info[2])) * 0.01))
-                    elif info[2] > box_objects[2]:
-                        new_price = new_price + (box_price * ((box_objects[2] - (info[2])) * 0.01))
-
-                    print(f"{info[0]}------>{round(new_price, 2)}")
 
 
-        elif your_answer == "m":
-            minimum_price = min(prices)
-            print(f"minimum price is {minimum_price}.your suitable price is {minimum_price - 1000}")
+        for datas in informations:
+            print(f"color:{datas[0][3]}")
+            box_price_color = datas[0][0]
+            print(f"box_price:{box_price_color}")
+            print("------------------------")
+
+
+
