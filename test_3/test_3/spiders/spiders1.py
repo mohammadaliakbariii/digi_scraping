@@ -93,15 +93,26 @@ class QuotesSpider(scrapy.Spider):
         #     minimum_price = min(prices)
         #     print(f"minimum price is {minimum_price}.your suitable price is {minimum_price - 1000}")
 
-        for datas in informations:
-            print(f"color:{datas[0][3]}")
-            box_objects_color = datas[0]
-            print(f"box_price:{datas[0][0]}")
-            print("------------------------")
-            print(box_objects_color)
-            datas.pop(0)
-            for d in datas:
-                if d[1]>box_objects_color[1]:
-                    pass
+        your_answer = input("if you want minimum enter m or if you want box enter b?\n").lower()
+        if your_answer == "b":
+            for datas in informations:
+                print(f"color:{datas[0][3]}")
+                box_objects_color = datas[0]
+                print(f"box_price:{datas[0][0]}")
+                print("------------------------")
+                print(box_objects_color)
+                datas.pop(0)
+                for d in datas:
+                    if d[1]>box_objects_color[1]:
+                        pass
+        elif your_answer == "m":
+            for datas in informations:
+                print(f"color:{datas[0][3]}")
+                box_objects_color = datas[0]
+                print(f"box_price:{datas[0][0]}")
+                print(f"minimum price is {datas[0][0]}.your suitable price is {datas[0][0] - 1000}")
+                print("------------------------")
+
+
 
 
