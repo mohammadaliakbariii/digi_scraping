@@ -77,31 +77,49 @@ class QuotesSpider(scrapy.Spider):
                         print(f"color:{color}")
                         print(f"my price:{my_objects[0]}")
                         print(f"second price:{second_objects[0]}")
+
+                        # اگر کالایمان را زود تر از نفر دوم به مشتری برسانیم
                         if my_objects[1] < second_objects[1]:
                             my_price = my_objects[0] + (
                                     second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
+                            # اگر رضایت مندی ما بیشتر از رضایت مندی نفردوم باشد
                             if my_objects[2] > second_objects[2]:
                                 my_price += (second_objects[0] * ((my_objects[2] - second_objects[2]) * 0.01))
+
+                                # اگر رضایت مندی ما کمتر از رضایت مندی نفردوم باشد
                             elif my_objects[2] < second_objects[2]:
                                 my_price -= (second_objects[0] * ((second_objects[2] - my_objects[2]) * 0.01))
                             print(f"your price should be {my_price}")
+
+                            # اگر کالایمان را دیر تر از نفر دوم به مشتری برسانیم
                         elif my_objects[1] > second_objects[1]:
                             my_price = my_objects[0] - (
                                     second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
+
+                            # اگر رضایت مندی ما بیشتر از رضایت مندی نفردوم باشد
                             if my_objects[2] > second_objects[2]:
                                 my_price += (second_objects[0] * ((my_objects[2] - second_objects[2]) * 0.01))
+
+                            # اگر رضایت مندی ما کمتر از رضایت مندی نفردوم باشد
                             elif my_objects[2] < second_objects[2]:
                                 my_price -= (second_objects[0] * ((second_objects[2] - my_objects[2]) * 0.01))
                             print(f"your price should be {my_price}")
+
+                            # اگر کالایمان را همزمان از نفر دوم به مشتری برسانیم
                         else:
                             my_price = my_objects[0]
+
+                            # اگر رضایت مندی ما بیشتر از رضایت مندی نفردوم باشد
                             if my_objects[2] > second_objects[2]:
                                 my_price += (second_objects[0] * ((my_objects[2] - second_objects[2]) * 0.01))
+
+                            # اگر رضایت مندی ما کمتر از رضایت مندی نفردوم باشد
                             elif my_objects[2] < second_objects[2]:
                                 my_price -= (second_objects[0] * ((second_objects[2] - my_objects[2]) * 0.01))
                             print(f"your price should be {my_price}")
                         print("------------------------------------")
 
+                    # اگر تنها ارایه دهنده این محصول باشیم
                     else:
                         print(f"color:{color}")
                         print(f"my price:{my_objects[0]}")
