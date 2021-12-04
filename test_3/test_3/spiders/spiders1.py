@@ -50,7 +50,6 @@ class QuotesSpider(scrapy.Spider):
                 color = None
             colors.add(color)
 
-            # rate = (cancel_percentage + ship_on_time_percentage + return_percentage) / 3
             rates.append(rate)
 
             # هر tuple در list_1 به ترتیب تشکیل شده از قیمت,تعداد روز تحویل به مشتری,درصد رضایت و رنگ میباشد
@@ -209,7 +208,7 @@ class QuotesSpider(scrapy.Spider):
                             elif d[2] > box_objects_color[2]:
                                 my_price = my_price + (((d[2] - box_objects_color[2]) * 0.1))
 
-                            #     # اگر رضایت مشتری این کالا برابر از رضایت مشتری داخل باکس باشد
+                            #      اگر رضایت مشتری این کالا برابر از رضایت مشتری داخل باکس باشد
                             else:
                                 my_price = my_price
                             print(f"{d[0]}----->{my_price}")
