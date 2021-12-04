@@ -80,14 +80,25 @@ class QuotesSpider(scrapy.Spider):
                         if my_objects[1] < second_objects[1]:
                             my_price = my_objects[0] + (
                                     second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
-
+                            if my_objects[2] > second_objects[2]:
+                                my_price += (second_objects[0] * ((my_objects[2] - second_objects[2]) * 0.01))
+                            elif my_objects[2] < second_objects[2]:
+                                my_price -= (second_objects[0] * ((second_objects[2] - my_objects[2]) * 0.01))
                             print(f"your price should be {my_price}")
                         elif my_objects[1] > second_objects[1]:
                             my_price = my_objects[0] - (
                                     second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
+                            if my_objects[2] > second_objects[2]:
+                                my_price += (second_objects[0] * ((my_objects[2] - second_objects[2]) * 0.01))
+                            elif my_objects[2] < second_objects[2]:
+                                my_price -= (second_objects[0] * ((second_objects[2] - my_objects[2]) * 0.01))
                             print(f"your price should be {my_price}")
                         else:
                             my_price = my_objects[0]
+                            if my_objects[2] > second_objects[2]:
+                                my_price += (second_objects[0] * ((my_objects[2] - second_objects[2]) * 0.01))
+                            elif my_objects[2] < second_objects[2]:
+                                my_price -= (second_objects[0] * ((second_objects[2] - my_objects[2]) * 0.01))
                             print(f"your price should be {my_price}")
                         print("------------------------------------")
 
