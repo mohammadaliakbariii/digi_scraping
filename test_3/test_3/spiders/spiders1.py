@@ -37,8 +37,8 @@ class QuotesSpider(scrapy.Spider):
             else:
                 lead_time = product["leadTime"]
             if product["sr"] != None:
-                # rate = product["sr"]
-                rate = 0
+                rate = product["sr"]
+                # rate = 0
             else:
                 rate = 0
 
@@ -68,14 +68,14 @@ class QuotesSpider(scrapy.Spider):
 
         your_answer = input("if you want minimum enter m or if you want box enter b?\n").lower()
         if your_answer == "b":
-            ans = input("are you in box or not(if yes press y and if no press n?\n").lower()
+            ans = input("are you in box or not(if yes press y and if no press n)?\n").lower()
             if ans == "y":
                 #     اگر قیمت خودمان در باکس باشد
                 for datas in informations:
                     prices = []
                     for data in datas:
                         prices.append(data[0])
-                    refrence_price = sum(prices)/len(prices)
+                    refrence_price = sum(prices) / len(prices)
                     print("refrence price :", refrence_price)
                     my_objects = datas[0]
                     color = my_objects[3]
@@ -91,13 +91,16 @@ class QuotesSpider(scrapy.Spider):
                         if my_objects[1] < second_objects[1]:
                             my_price = my_objects[0] + (
                                     second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
+
                             # اگر رضایت مندی ما بیشتر از رضایت مندی نفردوم باشد
                             if my_objects[2] > second_objects[2]:
-                                my_price += (second_objects[0] * ((my_objects[2] - second_objects[2]) * 0.01))
+                                my_price = my_price + (((my_objects[2] - second_objects[2]) * 0.1))
 
                                 # اگر رضایت مندی ما کمتر از رضایت مندی نفردوم باشد
                             elif my_objects[2] < second_objects[2]:
-                                my_price -= (second_objects[0] * ((second_objects[2] - my_objects[2]) * 0.01))
+                                my_price -= (((second_objects[2] - my_objects[2]) * 0.1))
+                            else:
+                                my_price = my_price
                             print(f"your price should be {my_price}")
 
                             # اگر کالایمان را دیر تر از نفر دوم به مشتری برسانیم
@@ -107,11 +110,13 @@ class QuotesSpider(scrapy.Spider):
 
                             # اگر رضایت مندی ما بیشتر از رضایت مندی نفردوم باشد
                             if my_objects[2] > second_objects[2]:
-                                my_price += (second_objects[0] * ((my_objects[2] - second_objects[2]) * 0.01))
+                                my_price += (((my_objects[2] - second_objects[2]) * 0.1))
 
                             # اگر رضایت مندی ما کمتر از رضایت مندی نفردوم باشد
                             elif my_objects[2] < second_objects[2]:
-                                my_price -= (second_objects[0] * ((second_objects[2] - my_objects[2]) * 0.01))
+                                my_price -= (((second_objects[2] - my_objects[2]) * 0.1))
+                            else:
+                                my_price = my_price
                             print(f"your price should be {my_price}")
 
                             # اگر کالایمان را همزمان از نفر دوم به مشتری برسانیم
@@ -120,11 +125,13 @@ class QuotesSpider(scrapy.Spider):
 
                             # اگر رضایت مندی ما بیشتر از رضایت مندی نفردوم باشد
                             if my_objects[2] > second_objects[2]:
-                                my_price += (second_objects[0] * ((my_objects[2] - second_objects[2]) * 0.01))
+                                my_price += (((my_objects[2] - second_objects[2]) * 0.1))
 
                             # اگر رضایت مندی ما کمتر از رضایت مندی نفردوم باشد
                             elif my_objects[2] < second_objects[2]:
-                                my_price -= (second_objects[0] * ((second_objects[2] - my_objects[2]) * 0.01))
+                                my_price -= (((second_objects[2] - my_objects[2]) * 0.1))
+                            else:
+                                my_price = my_price
                             print(f"your price should be {my_price}")
                         print("------------------------------------")
 
@@ -158,11 +165,11 @@ class QuotesSpider(scrapy.Spider):
 
                             # اگر رضایت مشتری این کالا کمتر از رضایت مشتری داخل باکس باشد
                             if d[2] < box_objects_color[2]:
-                                my_price = my_price - (box_price * ((box_objects_color[2] - d[2]) * 0.01))
+                                my_price = my_price - (((box_objects_color[2] - d[2]) * 0.1))
 
                             #     # اگر رضایت مشتری این کالا بیشتر از رضایت مشتری داخل باکس باشد
                             elif d[2] > box_objects_color[2]:
-                                my_price = my_price + (box_price * ((d[2] - box_objects_color[2]) * 0.01))
+                                my_price = my_price + (((d[2] - box_objects_color[2]) * 0.1))
                             else:
                                 #      اگر رضایت مشتری این کالا برابر رضایت مشتری داخل باکس باشد
                                 my_price = my_price
@@ -174,12 +181,12 @@ class QuotesSpider(scrapy.Spider):
 
                             # اگر رضایت مشتری این کالا کمتر از رضایت مشتری داخل باکس باشد
                             if d[2] < box_objects_color[2]:
-                                my_price = my_price - (box_price * ((box_objects_color[2] - d[2]) * 0.01))
+                                my_price = my_price - (((box_objects_color[2] - d[2]) * 0.1))
 
 
                             #      اگر رضایت مشتری این کالا بیشتر از رضایت مشتری داخل باکس باشد
                             elif d[2] > box_objects_color[2]:
-                                my_price = my_price + (box_price * ((d[2] - box_objects_color[2]) * 0.01))
+                                my_price = my_price + (((d[2] - box_objects_color[2]) * 0.1))
 
 
                             # اگر رضایت مشتری این کالا برابر از رضایت مشتری داخل باکس باشد
@@ -195,11 +202,11 @@ class QuotesSpider(scrapy.Spider):
 
                             # اگر رضایت مشتری این کالا کمتر از رضایت مشتری داخل باکس باشد
                             if d[2] < box_objects_color[2]:
-                                my_price = my_price - (box_price * ((box_objects_color[2] - d[2]) * 0.01))
+                                my_price = my_price - (((box_objects_color[2] - d[2]) * 0.1))
 
                             #      اگر رضایت مشتری این کالا بیشتر از رضایت مشتری داخل باکس باشد
                             elif d[2] > box_objects_color[2]:
-                                my_price = my_price + (box_price * ((d[2] - box_objects_color[2]) * 0.01))
+                                my_price = my_price + (((d[2] - box_objects_color[2]) * 0.1))
 
                             #     # اگر رضایت مشتری این کالا برابر از رضایت مشتری داخل باکس باشد
                             else:
@@ -219,5 +226,6 @@ class QuotesSpider(scrapy.Spider):
                 min_price = min(prices)
                 refrence_price = sum(prices) / len(prices)
                 print("refrence price:", refrence_price)
-                print(f"in color {d[3]} minimum price is {min_price}----------->your suitable price is {min_price - 1000}")
+                print(
+                    f"in color {d[3]} minimum price is {min_price}----------->your suitable price is {min_price - 1000}")
                 print("------------------------")
