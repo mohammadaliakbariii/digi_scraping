@@ -8,9 +8,10 @@ class QuotesSpider(scrapy.Spider):
 
     def start_requests(self):
         urls = [
-            "https://www.digikala.com/product/dkp-20401/",
-            # "https://www.digikala.com/product/dkp-4979130/",
+            # "https://www.digikala.com/product/dkp-20401/",
+            "https://www.digikala.com/product/dkp-4979130/",
             # "https://www.digikala.com/product/dkp-551270/",
+            # "https://www.digikala.com/product/dkp-202077/",
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
