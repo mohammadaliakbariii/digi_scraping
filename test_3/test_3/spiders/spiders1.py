@@ -36,9 +36,12 @@ class QuotesSpider(scrapy.Spider):
                 product["leadTime"] = 0
             else:
                 lead_time = product["leadTime"]
-            cancel_percentage = product["marketplace_seller"]["rating"]["cancel_percentage"]
-            return_percentage = product["marketplace_seller"]["rating"]["return_percentage"]
-            ship_on_time_percentage = product["marketplace_seller"]["rating"]["ship_on_time_percentage"]
+            if product["sr"] != None:
+                rate = product["sr"]
+                # rate = 0
+            else:
+                rate = 0
+
             if product["color"] != []:
                 color = product["color"]["title"]
 
@@ -46,7 +49,7 @@ class QuotesSpider(scrapy.Spider):
                 color = None
             colors.add(color)
 
-            rate = (cancel_percentage + ship_on_time_percentage + return_percentage) / 3
+            # rate = (cancel_percentage + ship_on_time_percentage + return_percentage) / 3
             rates.append(rate)
 
             # هر tuple در list_1 به ترتیب تشکیل شده از قیمت,تعداد روز تحویل به مشتری,درصد رضایت و رنگ میباشد
@@ -147,7 +150,7 @@ class QuotesSpider(scrapy.Spider):
                                 my_price = my_price - (box_price * ((box_objects_color[2] - d[2]) * 0.01))
 
                             #     # اگر رضایت مشتری این کالا بیشتر از رضایت مشتری داخل باکس باشد
-                            elif d[2] > box_objects_color:
+                            elif d[2] > box_objects_color[2]:
                                 my_price = my_price + (box_price * ((d[2] - box_objects_color[2]) * 0.01))
                             else:
                                 #      اگر رضایت مشتری این کالا برابر رضایت مشتری داخل باکس باشد
