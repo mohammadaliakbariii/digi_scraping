@@ -64,7 +64,24 @@ class QuotesSpider(scrapy.Spider):
             ans = input("are you in box or not(if yes press y and if no press n?\n").lower()
             if ans == "y":
                 #     اگر قیمت خودمان در باکس باشد
-                pass
+                for datas in informations:
+                    my_objects = datas[0]
+                    color = my_objects[3]
+                    my_price = my_objects[0]
+                    if len(datas) > 1:
+                        second_objects = datas[1]
+                        second_price = second_objects[0]
+                        print(f"color:{color}")
+                        print(f"my price:{my_price}")
+                        print(f"second price:{second_price}")
+                        print("______________________________")
+                    else:
+                        print(f"color:{color}")
+                        print(f"my price:{my_price}")
+                        print("you are only item in this feild.")
+                        print("-------------------------------")
+
+            #     اگر قیمت خودمان در باکس نباشد
             elif ans == "n":
                 for datas in informations:
                     box_objects_color = datas[0]
