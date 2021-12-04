@@ -9,6 +9,7 @@ class QuotesSpider(scrapy.Spider):
     def start_requests(self):
         urls = [
             "https://www.digikala.com/product/dkp-4979130/",
+            # "https://www.digikala.com/product/dkp-551270/%D8%B3%D8%AA-10-%D8%B9%D8%AF%D8%AF%DB%8C-%D8%B4%D8%A7%D9%86%D9%87-%DA%A9%D8%A7%D8%B1%D8%A7-%D9%85%D8%AF%D9%84-p02",
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -29,7 +30,12 @@ class QuotesSpider(scrapy.Spider):
             product = answer[i]
             price = product["price_list"]["selling_price"] / 10
             prices.append(price)
-            lead_time = product["leadTime"]
+
+            # sometimes product["leadTime"] is null in digikala.this means product["leadTime] = 0
+            if product["leadTime"] == None:
+                product["leadTime"] = 0
+            else:
+                lead_time = product["leadTime"]
             cancel_percentage = product["marketplace_seller"]["rating"]["cancel_percentage"]
             return_percentage = product["marketplace_seller"]["rating"]["return_percentage"]
             ship_on_time_percentage = product["marketplace_seller"]["rating"]["ship_on_time_percentage"]
@@ -73,11 +79,12 @@ class QuotesSpider(scrapy.Spider):
                         print(f"second price:{second_objects[0]}")
                         if my_objects[1] < second_objects[1]:
                             my_price = my_objects[0] + (
-                                        second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
+                                    second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
+
                             print(f"your price should be {my_price}")
                         elif my_objects[1] > second_objects[1]:
                             my_price = my_objects[0] - (
-                                        second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
+                                    second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
                             print(f"your price should be {my_price}")
                         else:
                             my_price = my_objects[0]
@@ -92,7 +99,8 @@ class QuotesSpider(scrapy.Spider):
 
 
             #       # تاخیر در ارسال به ازای هر 1 روز 5درصد
-            #         # به ازای 1 درصد پایین ازبالا ترین درصد,1درصد کاهش میابداگر قیمت خودمان در باکس نباشد
+            #         # به ازای 1 درصد پایین ازدرصد باکس,1درصد کاهش میابد
+            #         اگر قیمت خودمان در باکس نباشد
             elif ans == "n":
                 for datas in informations:
                     box_objects_color = datas[0]
