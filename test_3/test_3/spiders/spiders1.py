@@ -37,8 +37,8 @@ class QuotesSpider(scrapy.Spider):
             else:
                 lead_time = product["leadTime"]
             if product["sr"] != None:
-                rate = product["sr"]
-                # rate = 0
+                # rate = product["sr"]
+                rate = 0
             else:
                 rate = 0
 
@@ -72,8 +72,14 @@ class QuotesSpider(scrapy.Spider):
             if ans == "y":
                 #     اگر قیمت خودمان در باکس باشد
                 for datas in informations:
+                    prices = []
+                    for data in datas:
+                        prices.append(data[0])
+                    refrence_price = sum(prices)/len(prices)
+                    print("refrence price :", refrence_price)
                     my_objects = datas[0]
                     color = my_objects[3]
+
                     # اگر تنها فروشنده نباشیم
                     if len(datas) > 1:
                         second_objects = datas[1]
@@ -135,6 +141,11 @@ class QuotesSpider(scrapy.Spider):
             #         اگر قیمت خودمان در باکس نباشد
             elif ans == "n":
                 for datas in informations:
+                    prices = []
+                    for data in datas:
+                        prices.append(data[0])
+                    refrence_price = sum(prices) / len(prices)
+                    print("refrence price :", refrence_price)
                     box_objects_color = datas[0]
                     box_price = box_objects_color[0]
                     print(f"color:{datas[0][3]}")
@@ -197,13 +208,16 @@ class QuotesSpider(scrapy.Spider):
                     print("------------------------")
 
 
-        # اگر کمترین قیمت را میخواهیم
+        # اگر کمترین قیمت رابخواهیم
         elif your_answer == "m":
             for datas in informations:
+
                 prices = []
 
                 for d in datas:
                     prices.append(d[0])
                 min_price = min(prices)
-                print(f"in color {d[3]} minimum price is {min_price}.your suitable price is {min_price - 1000}")
+                refrence_price = sum(prices) / len(prices)
+                print("refrence price:", refrence_price)
+                print(f"in color {d[3]} minimum price is {min_price}----------->your suitable price is {min_price - 1000}")
                 print("------------------------")
