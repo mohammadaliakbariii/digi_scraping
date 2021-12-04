@@ -57,9 +57,6 @@ class QuotesSpider(scrapy.Spider):
             index += 1
         # print(">>>>>>>>>>>>>>>>>", informations)
 
-
-
-
         your_answer = input("if you want minimum enter m or if you want box enter b?\n").lower()
         if your_answer == "b":
             ans = input("are you in box or not(if yes press y and if no press n?\n").lower()
@@ -68,17 +65,28 @@ class QuotesSpider(scrapy.Spider):
                 for datas in informations:
                     my_objects = datas[0]
                     color = my_objects[3]
-                    my_price = my_objects[0]
+                    # اگر تنها فروشنده نباشیم
                     if len(datas) > 1:
                         second_objects = datas[1]
-                        second_price = second_objects[0]
                         print(f"color:{color}")
-                        print(f"my price:{my_price}")
-                        print(f"second price:{second_price}")
-                        print("______________________________")
+                        print(f"my price:{my_objects[0]}")
+                        print(f"second price:{second_objects[0]}")
+                        if my_objects[1] < second_objects[1]:
+                            my_price = my_objects[0] + (
+                                        second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
+                            print(f"your price should be {my_price}")
+                        elif my_objects[1] > second_objects[1]:
+                            my_price = my_objects[0] - (
+                                        second_objects[0] * ((second_objects[1] - my_objects[1]) * 0.05))
+                            print(f"your price should be {my_price}")
+                        else:
+                            my_price = my_objects[0]
+                            print(f"your price should be {my_price}")
+                        print("------------------------------------")
+
                     else:
                         print(f"color:{color}")
-                        print(f"my price:{my_price}")
+                        print(f"my price:{my_objects[0]}")
                         print("you are only item in this feild.")
                         print("-------------------------------")
 
@@ -149,7 +157,7 @@ class QuotesSpider(scrapy.Spider):
                     print("------------------------")
 
 
-        #اگر کمترین قیمت را میخواهیم
+        # اگر کمترین قیمت را میخواهیم
         elif your_answer == "m":
             for datas in informations:
                 prices = []
