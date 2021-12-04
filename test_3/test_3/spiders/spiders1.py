@@ -10,7 +10,7 @@ class QuotesSpider(scrapy.Spider):
         urls = [
             "https://www.digikala.com/product/dkp-20401/",
             # "https://www.digikala.com/product/dkp-4979130/",
-            # "https://www.digikala.com/product/dkp-551270/%D8%B3%D8%AA-10-%D8%B9%D8%AF%D8%AF%DB%8C-%D8%B4%D8%A7%D9%86%D9%87-%DA%A9%D8%A7%D8%B1%D8%A7-%D9%85%D8%AF%D9%84-p02",
+            # "https://www.digikala.com/product/dkp-551270/",
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -99,7 +99,7 @@ class QuotesSpider(scrapy.Spider):
 
                                 # اگر رضایت مندی ما کمتر از رضایت مندی نفردوم باشد
                             elif my_objects[2] < second_objects[2]:
-                                my_price -= (((second_objects[2] - my_objects[2]) * 0.1))
+                                my_price -= ((second_objects[2] - my_objects[2]) * 0.1)
                             else:
                                 my_price = my_price
                             print(f"your price should be {my_price}")
