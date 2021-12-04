@@ -63,19 +63,19 @@ class QuotesSpider(scrapy.Spider):
         if your_answer == "b":
             ans = input("are you in box or not(if yes press y and if no press n?\n").lower()
             if ans == "y":
+                #     اگر قیمت خودمان در باکس باشد
                 pass
             elif ans == "n":
                 for datas in informations:
                     box_objects_color = datas[0]
                     box_price = box_objects_color[0]
-                    # print(box_objects_color)
                     print(f"color:{datas[0][3]}")
                     print(f"box_price:{box_price}")
                     datas.pop(0)
                     for d in datas:
                         # اگر تعداد روز تحویل بیشتر از تعداد روز تحویل داخل باکس باشد
                         if d[1] > box_objects_color[1]:
-                            my_price = box_price - (box_price * (d[1] * 0.05))
+                            my_price = box_price - (box_price * ((d[1] - box_objects_color[1]) * 0.05))
 
                             # اگر رضایت مشتری این کالا کمتر از رضایت مشتری داخل باکس باشد
                             # if d[2] < box_objects_color[2]:
@@ -91,7 +91,7 @@ class QuotesSpider(scrapy.Spider):
 
                         # اگر تعداد روز تحویل کمتر از تعداد روز تحویل داخل باکس باشد
                         elif d[1] < box_objects_color[1]:
-                            my_price = box_price - (box_price * (d[1] * 0.05))
+                            my_price = box_price - (box_price * ((box_objects_color[1] - d[1]) * 0.05))
 
                             # اگر رضایت مشتری این کالا کمتر از رضایت مشتری داخل باکس باشد
                             # if d[2] < box_objects_color[2]:
@@ -101,7 +101,7 @@ class QuotesSpider(scrapy.Spider):
                             # elif d[2] > box_objects_color:
                             #     my_price = my_price + (box_price * (d[2] * 0.01))
 
-                                # اگر رضایت مشتری این کالا برابر از رضایت مشتری داخل باکس باشد
+                            # اگر رضایت مشتری این کالا برابر از رضایت مشتری داخل باکس باشد
                             # else:
                             #     my_price = my_price
 
