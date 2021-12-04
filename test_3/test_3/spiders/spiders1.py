@@ -33,7 +33,7 @@ class QuotesSpider(scrapy.Spider):
             cancel_percentage = product["marketplace_seller"]["rating"]["cancel_percentage"]
             return_percentage = product["marketplace_seller"]["rating"]["return_percentage"]
             ship_on_time_percentage = product["marketplace_seller"]["rating"]["ship_on_time_percentage"]
-            if  product["color"]  != []:
+            if product["color"] != []:
                 color = product["color"]["title"]
 
             else:
@@ -45,13 +45,7 @@ class QuotesSpider(scrapy.Spider):
 
             # هر tuple در list_1 به ترتیب تشکیل شده از قیمت,تعداد روز تحویل به مشتری,درصد رضایت و رنگ میباشد
             list_1.append((price, lead_time, rate, color))
-
-        box_price = list_1[0][0]
-        box_objects = list_1[0]
-
-        # print(list_1)
         colors = list(colors)
-        # print(colors)
         index = 0
         informations = []
         while index != len(colors):
@@ -63,58 +57,85 @@ class QuotesSpider(scrapy.Spider):
             index += 1
         print(">>>>>>>>>>>>>>>>>", informations)
 
-        # print(box_objects)
-        # print(f"box price:{list_1[0][0]}")
-        list_1.pop(0)
-
-        # تاخیر در ارسال به ازای هر 1 روز 5درصدد
+        # تاخیر در ارسال به ازای هر 1 روز 5درصد
         # به ازای 1 درصد پایین ازبالا ترین درصد,1درصد کاهش میابد
-        # your_answer = input("if you want minimum enter m or if you want box enter b?\n").lower()
-        # if your_answer == "b":
-        #     for info in list_1:
-        #         if info[3] == box_objects[3]:
-        #
-        #             if box_objects[1] > info[1]:
-        #
-        #                 new_price = box_price + (info[0] * (info[1] * 0.05))
-        #             elif box_objects[1] < info[1]:
-        #                 new_price = box_price - (info[0] * (info[1] * 0.05))
-        #             else:
-        #                 new_price = info[0]
-        #             if info[2] < box_objects[2]:
-        #                 new_price = new_price - (box_price * ((box_objects[2] - (info[2])) * 0.01))
-        #             elif info[2] > box_objects[2]:
-        #                 new_price = new_price + (box_price * ((box_objects[2] - (info[2])) * 0.01))
-        #
-        #             print(f"{info[0]}------>{round(new_price, 2)}")
-        #
-        #
-        # elif your_answer == "m":
-        #     minimum_price = min(prices)
-        #     print(f"minimum price is {minimum_price}.your suitable price is {minimum_price - 1000}")
-        #
         your_answer = input("if you want minimum enter m or if you want box enter b?\n").lower()
         if your_answer == "b":
-            for datas in informations:
-                print(f"color:{datas[0][3]}")
-                box_objects_color = datas[0]
-                print(f"box_price:{datas[0][0]}")
-                print("------------------------")
-                print(box_objects_color)
-                datas.pop(0)
-                for d in datas:
-                    if d[1]>box_objects_color[1]:
-                        pass
+            ans = input("are you in box or not(if yes press y and if no press n?\n").lower()
+            if ans == "y":
+                pass
+            elif ans == "n":
+                for datas in informations:
+                    box_objects_color = datas[0]
+                    box_price = box_objects_color[0]
+                    # print(box_objects_color)
+                    print(f"color:{datas[0][3]}")
+                    print(f"box_price:{box_price}")
+                    datas.pop(0)
+                    for d in datas:
+                        # اگر تعداد روز تحویل بیشتر از تعداد روز تحویل داخل باکس باشد
+                        if d[1] > box_objects_color[1]:
+                            my_price = box_price - (box_price * (d[1] * 0.05))
+
+                            # اگر رضایت مشتری این کالا کمتر از رضایت مشتری داخل باکس باشد
+                            # if d[2] < box_objects_color[2]:
+                            #     my_price = my_price - (box_price * (d[2] * 0.01))
+                            #
+                            #     # اگر رضایت مشتری این کالا بیشتر از رضایت مشتری داخل باکس باشد
+                            # elif d[2] > box_objects_color:
+                            #     my_price = my_price + (box_price * (d[2] * 0.01))
+                            # else:
+                            #     # اگر رضایت مشتری این کالا برابر رضایت مشتری داخل باکس باشد
+                            #     my_price = my_price
+                            print(f"{d[0]}----->{my_price}")
+
+                        # اگر تعداد روز تحویل کمتر از تعداد روز تحویل داخل باکس باشد
+                        elif d[1] < box_objects_color[1]:
+                            my_price = box_price - (box_price * (d[1] * 0.05))
+
+                            # اگر رضایت مشتری این کالا کمتر از رضایت مشتری داخل باکس باشد
+                            # if d[2] < box_objects_color[2]:
+                            #     my_price = my_price - (box_price * (d[2] * 0.01))
+                            #
+                            #     # اگر رضایت مشتری این کالا بیشتر از رضایت مشتری داخل باکس باشد
+                            # elif d[2] > box_objects_color:
+                            #     my_price = my_price + (box_price * (d[2] * 0.01))
+
+                                # اگر رضایت مشتری این کالا برابر از رضایت مشتری داخل باکس باشد
+                            # else:
+                            #     my_price = my_price
+
+                            print(f"{d[0]}----->{my_price}")
+
+
+                        # اگر تعداد روز تحویل برابر از تعداد روز تحویل داخل باکس باشد
+                        else:
+                            my_price = box_price
+
+                            # اگر رضایت مشتری این کالا کمتر از رضایت مشتری داخل باکس باشد
+                            # if d[2] < box_objects_color[2]:
+                            #     my_price = my_price - (box_price * (d[2] * 0.1))
+                            #
+                            #     # اگر رضایت مشتری این کالا بیشتر از رضایت مشتری داخل باکس باشد
+                            # elif d[2] > box_objects_color[2]:
+                            #     my_price = my_price + (box_price * (d[2] * 0.1))
+                            #
+                            #     # اگر رضایت مشتری این کالا برابر از رضایت مشتری داخل باکس باشد
+                            # else:
+                            #     my_price = my_price
+                            print(f"{d[0]}----->{my_price}")
+                    print("------------------------")
+
+
+
+
+
         elif your_answer == "m":
             for datas in informations:
-                prices=[]
+                prices = []
 
                 for d in datas:
                     prices.append(d[0])
-                min_price =min(prices)
+                min_price = min(prices)
                 print(f"in color {d[3]} minimum price is {min_price}.your suitable price is {min_price - 1000}")
                 print("------------------------")
-
-
-
-
