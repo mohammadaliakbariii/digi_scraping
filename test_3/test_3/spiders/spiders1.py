@@ -138,7 +138,7 @@ class QuotesSpider(scrapy.Spider):
 
                         # اگر تعداد روز تحویل کمتر از تعداد روز تحویل داخل باکس باشد
                         elif d[1] < box_objects_color[1]:
-                            my_price = box_price - (box_price * ((box_objects_color[1] - d[1]) * 0.05))
+                            my_price = box_price + (box_price * ((box_objects_color[1] - d[1]) * 0.05))
 
                             # اگر رضایت مشتری این کالا کمتر از رضایت مشتری داخل باکس باشد
                             if d[2] < box_objects_color[2]:
@@ -146,7 +146,7 @@ class QuotesSpider(scrapy.Spider):
 
 
                             #      اگر رضایت مشتری این کالا بیشتر از رضایت مشتری داخل باکس باشد
-                            elif d[2] > box_objects_color:
+                            elif d[2] > box_objects_color[2]:
                                 my_price = my_price + (box_price * ((d[2] - box_objects_color[2]) * 0.01))
 
 
